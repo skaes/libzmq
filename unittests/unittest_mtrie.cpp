@@ -213,7 +213,7 @@ void test_rm_nonexistent_nonempty_prefixed ()
 void add_indexed_expect_unique (zmq::generic_mtrie_t<int> &mtrie,
                                 int *pipes,
                                 const char **names,
-                                int i)
+                                size_t i)
 {
     const zmq::generic_mtrie_t<int>::prefix_t name_data =
       reinterpret_cast<zmq::generic_mtrie_t<int>::prefix_t> (names[i]);
@@ -243,7 +243,7 @@ void add_entries (zmq::generic_mtrie_t<int> &mtrie,
                   int (&pipes)[N],
                   const char *(&names)[N])
 {
-    for (int i = 0; i < N; ++i) {
+    for (size_t i = 0; i < N; ++i) {
         add_indexed_expect_unique (mtrie, pipes, names, i);
     }
 }
@@ -272,10 +272,10 @@ void test_add_multiple_reverse ()
 
     zmq::generic_mtrie_t<int> mtrie;
     for (int i = 2; i >= 0; --i) {
-        add_indexed_expect_unique (mtrie, pipes, names, i);
+        add_indexed_expect_unique (mtrie, pipes, names, (size_t)i);
     }
 
-    for (int i = 0; i < 3; ++i) {
+    for (size_t i = 0; i < 3; ++i) {
         const zmq::generic_mtrie_t<int>::prefix_t name_data =
           reinterpret_cast<zmq::generic_mtrie_t<int>::prefix_t> (names[i]);
         int count = 0;
@@ -290,7 +290,7 @@ template <size_t N> void add_and_rm_entries (const char *(&names)[N])
     zmq::generic_mtrie_t<int> mtrie;
     add_entries (mtrie, pipes, names);
 
-    for (int i = 0; i < N; ++i) {
+    for (size_t i = 0; i < N; ++i) {
         const zmq::generic_mtrie_t<int>::prefix_t name_data =
           reinterpret_cast<zmq::generic_mtrie_t<int>::prefix_t> (names[i]);
 
@@ -325,7 +325,7 @@ template <size_t N> void add_entries_rm_pipes_unique (const char *(&names)[N])
     zmq::generic_mtrie_t<int> mtrie;
     add_entries (mtrie, pipes, names);
 
-    for (int i = 0; i < N; ++i) {
+    for (size_t i = 0; i < N; ++i) {
         mtrie.rm (&pipes[i], check_name, const_cast<char *> (names[i]), false);
     }
 }
