@@ -637,14 +637,14 @@ bool zmq::stream_engine_t::handshake ()
         alloc_assert (encoder);
 
         decoder =
-          new (std::nothrow) v2_decoder_t (in_batch_size, options.maxmsgsize);
+            new (std::nothrow) v2_decoder_t (in_batch_size, options.maxmsgsize, options.zero_copy);
         alloc_assert (decoder);
     } else {
         encoder = new (std::nothrow) v2_encoder_t (out_batch_size);
         alloc_assert (encoder);
 
         decoder =
-          new (std::nothrow) v2_decoder_t (in_batch_size, options.maxmsgsize);
+            new (std::nothrow) v2_decoder_t (in_batch_size, options.maxmsgsize, options.zero_copy);
         alloc_assert (decoder);
 
         if (options.mechanism == ZMQ_NULL
