@@ -246,7 +246,7 @@ int zmq::ctx_t::set (int option_, int optval_)
     } else if (option_ == ZMQ_MAX_MSGSZ && optval_ >= 0) {
         scoped_lock_t locker (opt_sync);
         max_msgsz = optval_ < INT_MAX ? optval_ : INT_MAX;
-    } else if (option_ == ZMQ_ZERO_COPY && optval_ >= 0) {
+    } else if (option_ == ZMQ_ZERO_COPY_RECV && optval_ >= 0) {
         scoped_lock_t locker (opt_sync);
         zero_copy = (optval_ != 0);
     } else {
@@ -272,7 +272,7 @@ int zmq::ctx_t::get (int option_)
         rc = max_msgsz;
     else if (option_ == ZMQ_MSG_T_SIZE)
         rc = sizeof (zmq_msg_t);
-    else if (option_ == ZMQ_ZERO_COPY) {
+    else if (option_ == ZMQ_ZERO_COPY_RECV) {
         rc = zero_copy;
     } else {
         errno = EINVAL;
